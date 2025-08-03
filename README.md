@@ -7,7 +7,7 @@ This repository contains sample modules for a Roblox verification bot built with
 
 - `Blacklists.cs` – Provides commands to manage user, group, and custom blacklists within a guild.
 - `bot.py` – Stand‑alone script demonstrating Roblox verification via prefix commands (`!verify`, `!update`) and slash commands
-(`/verify`, `/update`). Verification codes are delivered in embeds with a helper button using ephemeral channel responses instead of DMs.
+(`/verify`, `/update`). Verification codes are delivered in embeds with a helper button using ephemeral channel responses instead of DMs, keeping the codes hidden from other users even for prefix commands.
 
 ## Building
 

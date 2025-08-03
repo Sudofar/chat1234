@@ -76,7 +76,7 @@ async def verify(ctx, roblox_username: str):
         color=discord.Color.blurple(),
     )
     embed.add_field(name="인증 코드", value=f"`{code}`", inline=False)
-    await ctx.reply(embed=embed, mention_author=False, view=VerifyView())
+    await ctx.reply(embed=embed, mention_author=False, view=VerifyView(), ephemeral=True)
 
 
 @bot.command()
@@ -84,7 +84,7 @@ async def update(ctx):
     success, msg = await update_roles(ctx.author)
     color = discord.Color.green() if success else discord.Color.red()
     embed = discord.Embed(description=msg, color=color)
-    await ctx.reply(embed=embed, mention_author=False)
+    await ctx.reply(embed=embed, mention_author=False, ephemeral=True)
 
 
 @bot.tree.command(name="verify", description="로블록스 인증 시작")
