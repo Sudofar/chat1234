@@ -43,19 +43,7 @@ async def get_roblox_description(username: str) -> str:
 async def start_verification(user: discord.User, roblox_username: str) -> str:
     code = str(random.randint(100000, 999999))
     pending_codes[user.id] = {"roblox_user": roblox_username, "code": code}
-    embed = discord.Embed(
-        title="Roblox Verification",
-        description=(
-            f"`{roblox_username}` 프로필 소개란에 아래 코드를 추가한 뒤 `/update` 또는 `!update` 명령을 실행하세요."
-        ),
-        color=discord.Color.blurple(),
-    )
-    embed.add_field(name="인증 코드", value=f"`{code}`", inline=False)
-    try:
-        await user.send(embed=embed, view=VerifyView())
-        return ""
-    except discord.Forbidden:
-        return code
+    return code
 
 
 async def update_roles(member: discord.Member):
@@ -80,19 +68,15 @@ async def update_roles(member: discord.Member):
 @bot.command()
 async def verify(ctx, roblox_username: str):
     code = await start_verification(ctx.author, roblox_username)
-    if code:
-        embed = discord.Embed(
-            title="DM 차단 감지",
-            description=(
-                "DM을 보낼 수 없어 여기서 인증 코드를 안내합니다.\n"
-                f"`{roblox_username}` 프로필 소개란에 아래 코드를 추가 후 `!update` 또는 `/update`를 사용하세요."
-            ),
-            color=discord.Color.orange(),
-        )
-        embed.add_field(name="인증 코드", value=f"`{code}`", inline=False)
-        await ctx.reply(embed=embed, mention_author=False, view=VerifyView())
-    else:
-        await ctx.reply("DM을 확인해주세요!", mention_author=False, view=VerifyView())
+    embed = discord.Embed(
+        title="Roblox Verification",
+        description=(
+            f"`{roblox_username}` 프로필 소개란에 아래 코드를 추가한 뒤 `!update` 또는 `/update` 명령을 실행하세요."
+        ),
+        color=discord.Color.blurple(),
+    )
+    embed.add_field(name="인증 코드", value=f"`{code}`", inline=False)
+    await ctx.reply(embed=embed, mention_author=False, view=VerifyView())
 
 
 @bot.command()
@@ -107,19 +91,15 @@ async def update(ctx):
 @app_commands.describe(roblox_username="로블록스 사용자명")
 async def slash_verify(interaction: discord.Interaction, roblox_username: str):
     code = await start_verification(interaction.user, roblox_username)
-    if code:
-        embed = discord.Embed(
-            title="DM 차단 감지",
-            description=(
-                "DM을 보낼 수 없어 여기서 인증 코드를 안내합니다.\n"
-                f"`{roblox_username}` 프로필 소개란에 아래 코드를 추가 후 `/update` 명령을 사용하세요."
-            ),
-            color=discord.Color.orange(),
-        )
-        embed.add_field(name="인증 코드", value=f"`{code}`", inline=False)
-        await interaction.response.send_message(embed=embed, ephemeral=True, view=VerifyView())
-    else:
-        await interaction.response.send_message("DM을 확인해주세요!", ephemeral=True, view=VerifyView())
+    embed = discord.Embed(
+        title="Roblox Verification",
+        description=(
+            f"`{roblox_username}` 프로필 소개란에 아래 코드를 추가한 뒤 `/update` 명령을 실행하세요."
+        ),
+        color=discord.Color.blurple(),
+    )
+    embed.add_field(name="인증 코드", value=f"`{code}`", inline=False)
+    await interaction.response.send_message(embed=embed, ephemeral=True, view=VerifyView())
 
 
 @bot.tree.command(name="update", description="인증된 역할 갱신")
